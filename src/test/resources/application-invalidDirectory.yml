@@ -1,0 +1,6 @@
+de:
+  krec:
+    cloudprovider: "scaleway"
+    paths:
+      - path: "/definitely/does/not/exist"
+        clouddir: "notexist"

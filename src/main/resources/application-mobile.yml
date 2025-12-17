@@ -1,0 +1,6 @@
+de:
+  krec:
+    cloudprovider: "scaleway"
+    paths:
+      - path: "."
+        clouddir: "."

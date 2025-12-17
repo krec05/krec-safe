@@ -1,0 +1,8 @@
+de:
+  krec:
+    cloudprovider: "scaleway"
+    paths:
+      - path: "${java.io.tmpdir}/backup/dir1"
+        clouddir: "cloud1"
+      - path: "${java.io.tmpdir}/backup/dir2"
+        clouddir: "cloudDir=cloud2"
