@@ -1,6 +1,5 @@
 package de.krec.krecsafe.core.cloud;
 
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
@@ -8,18 +7,16 @@ import java.nio.file.Path;
 import java.time.LocalDateTime;
 
 @Service
-@ConditionalOnProperty(name = "de.krec.cloudprovider", havingValue = "scaleway")
-@ConditionalOnMissingBean(CloudClient.class)
-public class ScalewayClient implements CloudClient {
+@ConditionalOnProperty(name = "de.krec.cloudprovider", havingValue = "mock")
+public class CloudServiceMock implements CloudClient {
 
     @Override
     public void backupFile(Path hostFile, Path cloudFile) {
-        // TODO cloud magic
+
     }
 
     @Override
     public LocalDateTime getLastBackupTime(Path cloudFile) {
-        // TODO cloud magic
-        return null;
+        return LocalDateTime.of(2018, 8, 1, 8, 17);
     }
 }

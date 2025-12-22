@@ -1,6 +1,6 @@
 de:
   krec:
-    cloudprovider: "scaleway"
+    cloudprovider: "mock"
     paths:
       - path: "${java.io.tmpdir}/backup/dir1"
         clouddir: "cloud1"
