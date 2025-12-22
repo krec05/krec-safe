@@ -1,6 +1,6 @@
 de:
   krec:
-    cloudprovider: "scaleway"
+    cloudprovider: "s3"
     paths:
       - path: "${java.io.tmpdir}"
         clouddir: "backup"

@@ -8,9 +8,9 @@ import java.nio.file.Path;
 import java.time.LocalDateTime;
 
 @Service
-@ConditionalOnProperty(name = "de.krec.cloudprovider", havingValue = "scaleway")
+@ConditionalOnProperty(name = "de.krec.cloudprovider", havingValue = "s3")
 @ConditionalOnMissingBean(CloudClient.class)
-public class ScalewayClient implements CloudClient {
+public class S3Client implements CloudClient {
 
     @Override
     public void backupFile(Path hostFile, Path cloudFile) {

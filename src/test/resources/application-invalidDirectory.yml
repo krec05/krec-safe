@@ -1,6 +1,6 @@
 de:
   krec:
-    cloudprovider: "scaleway"
+    cloudprovider: "s3"
     paths:
       - path: "/definitely/does/not/exist"
         clouddir: "notexist"
