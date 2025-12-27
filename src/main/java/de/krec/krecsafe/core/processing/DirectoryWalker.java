@@ -1,6 +1,7 @@
 package de.krec.krecsafe.core.processing;
 
 import de.krec.krecsafe.config.BackupPathProperties;
+import de.krec.krecsafe.core.events.UnencryptableFileEvent;
 import de.krec.krecsafe.core.events.UnreadableFileEvent;
 import de.krec.krecsafe.core.cloud.CloudService;
 import de.krec.krecsafe.core.service.FileChecker;
@@ -10,9 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
+import javax.crypto.NoSuchPaddingException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -52,8 +58,14 @@ public class DirectoryWalker {
                                 LOG.error("The file {} could not be read", p.toAbsolutePath(), e);
                                 // If a file cannot be read, this should be noted without stopping the program.
                                 applicationEventPublisher.publishEvent(new UnreadableFileEvent(p, e));
-                            }
-                        });
+                            } catch (InvalidAlgorithmParameterException |
+									 NoSuchPaddingException | NoSuchAlgorithmException |
+									 InvalidKeySpecException | InvalidKeyException e) {
+								LOG.error("The file {} could not be encrypted", p.toAbsolutePath(), e);
+								// If a file cannot be read, this should be noted without stopping the program.
+								applicationEventPublisher.publishEvent(new UnencryptableFileEvent(p, e));
+							}
+						});
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
