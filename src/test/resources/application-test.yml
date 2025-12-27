@@ -6,3 +6,5 @@ de:
         clouddir: "cloud1"
       - path: "${java.io.tmpdir}/backup/dir2"
         clouddir: "cloudDir=cloud2"
+    encrypt:
+      password: "encryptionSecretPassword"

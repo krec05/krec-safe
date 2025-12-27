@@ -4,3 +4,5 @@ de:
     paths:
       - path: "/definitely/does/not/exist"
         clouddir: "notexist"
+    encrypt:
+      password: "encryptionSecretPassword"
