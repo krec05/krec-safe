@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 public interface CloudClient {
 
-    void backupFile(Path hostFile, Path cloudFile);
+    void backupFile(Path encryptedFile, Path cloudFile);
 
     LocalDateTime getLastBackupTime(Path cloudFile);
 }
