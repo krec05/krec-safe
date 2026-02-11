@@ -1,6 +1,5 @@
 package de.krec.krecsafe.core;
 
-import de.krec.krecsafe.config.MonitoringProperties;
 import de.krec.krecsafe.core.events.UnreadableFileRegistry;
 import de.krec.krecsafe.core.processing.DirectoryWalker;
 import org.slf4j.Logger;
@@ -11,9 +10,6 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 @Component
 public class KrecSafeRunner implements ApplicationRunner {
@@ -30,6 +26,7 @@ public class KrecSafeRunner implements ApplicationRunner {
 		this.unreadableFileRegistry = unreadableFileRegistry;
 	}
 
+	@SuppressWarnings("RedundantThrows")
 	@Override
 	public void run(ApplicationArguments args) throws IOException {
 		LOG.info("KrecSafeRunner started");

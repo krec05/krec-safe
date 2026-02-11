@@ -14,7 +14,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Locale;
@@ -34,7 +33,7 @@ public class CsvProtocolWriterService {
 
 	protected static final String           CSV_HEADER  =
 			"Profile;Backup Time;Source Path;Cloud Path;File Size;Checksum;Backup Status";
-	private static final CsvProtocolEntry POISON_PILL =
+	private static final   CsvProtocolEntry POISON_PILL =
 			new CsvProtocolEntry(null, null, null, 0, null, null);
 
 	private final ActiveProfileProvider activeProfileProvider;
@@ -42,15 +41,10 @@ public class CsvProtocolWriterService {
 	private final ExecutorService       executorService =
 			Executors.newSingleThreadExecutor();
 
-	// In Java, a variable can remain permanently in the cache, and in a multithreaded
-	// environment (writer thread, shutdown thread), one thread continues to read an old
-	// value while another thread has already changed the value. As a result, the threads
-	// “see” different values. volatile forces changes to be visible to all threads.
-	private volatile boolean   running = true;
-	private          Path      csvProtocolPath;
+	private final Path      csvProtocolPath;
 	// This is the object that this writer-thread is about. It is needed to enable
 	// controlled termination.
-	private          Future<?> writerFuture;
+	private       Future<?> writerFuture;
 
 	@Autowired
 	public CsvProtocolWriterService(CsvProtocolQueue csvProtocolQueue,
@@ -59,7 +53,8 @@ public class CsvProtocolWriterService {
 		this.csvProtocolQueue = csvProtocolQueue;
 		String csvProtocolPathStr = monitoringProperties.getCsvProtocolPath();
 		if (csvProtocolPathStr == null || csvProtocolPathStr.isEmpty()) {
-			throw new IllegalStateException("de.krec.monitoring.csv-protocol-path must be configured");
+			throw new IllegalStateException(
+					"de.krec.monitoring.csv-protocol-path must be configured");
 		}
 		this.csvProtocolPath = Paths.get(csvProtocolPathStr);
 		this.activeProfileProvider = activeProfileProvider;
@@ -117,7 +112,8 @@ public class CsvProtocolWriterService {
 
 	private String createCsvLine(CsvProtocolEntry csvProtocolEntry) throws IOException {
 		String profile = activeProfileProvider.getActiveProfile();
-		String backupTime = csvProtocolEntry.backupTime().atZone(ZoneId.systemDefault()).format(DateTimeFormatter.ISO_DATE_TIME);
+		String backupTime = csvProtocolEntry.backupTime().atZone(ZoneId.systemDefault())
+											.format(DateTimeFormatter.ISO_DATE_TIME);
 		String sourceFile = csvProtocolEntry.sourceFile().toString();
 		String cloudFile = csvProtocolEntry.cloudFile().toString();
 		String fileSize = humanReadableBytes(Files.size(csvProtocolEntry.sourceFile()));
@@ -147,7 +143,7 @@ public class CsvProtocolWriterService {
 		if (csvElement == null) {
 			return "";
 		}
-		csvElement.replace("\"", "\"\"'");
+		csvElement = csvElement.replace("\"", "\"\"'");
 		if (csvElement.contains(";") || csvElement.contains("\"") || csvElement.contains(
 				"\n") || csvElement.contains("\r")) {
 			return "\"" + csvElement + "\"";

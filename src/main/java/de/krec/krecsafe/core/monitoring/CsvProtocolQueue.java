@@ -25,7 +25,4 @@ public class CsvProtocolQueue {
 		return queue.poll(timeout, unit);
 	}
 
-	public boolean isEmpty() {
-		return  queue.isEmpty();
-	}
 }
