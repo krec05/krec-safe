@@ -6,3 +6,5 @@ de:
         clouddir: "notexist"
     encrypt:
       password: "encryptionSecretPassword"
+    monitoring:
+      - loggingpath: "${java.io.tmpdir}/monitoring"

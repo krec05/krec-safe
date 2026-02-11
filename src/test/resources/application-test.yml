@@ -8,3 +8,5 @@ de:
         clouddir: "cloudDir=cloud2"
     encrypt:
       password: "encryptionSecretPassword"
+    monitoring:
+      - loggingpath: "${java.io.tmpdir}/monitoring"
