@@ -85,7 +85,9 @@ class CsvProtocolTest {
 			String expected = String.format(
 					"%s;2026-06-06T0%d:0%d:00+02:00[Europe/Berlin];%s\\sourceFile-%d.tmp;cloudFile-%d;0 B;checksum-%d;SUCCESS",
 					profile, i, i, tempDir.toAbsolutePath(), i, i, i);
-			Assertions.assertEquals(expected, lines.get(i));
+			Assertions.assertEquals(expected, lines.get(i),
+									"the line number (" + i + ") with \"" + lines.get(i)
+									+ "\" is not equal to expected \"" + expected + "\"");
 		}
 	}
 }
