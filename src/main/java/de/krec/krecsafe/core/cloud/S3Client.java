@@ -13,8 +13,9 @@ import java.time.LocalDateTime;
 public class S3Client implements CloudClient {
 
     @Override
-    public void backupFile(Path encryptedFile, Path cloudFile) {
+    public String backupFile(Path encryptedFile, Path cloudFile) {
         // TODO cloud magic
+		return null;
     }
 
     @Override
