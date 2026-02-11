@@ -11,8 +11,8 @@ import java.time.LocalDateTime;
 public class CloudServiceMock implements CloudClient {
 
     @Override
-    public void backupFile(Path encryptedFile, Path cloudFile) {
-
+    public String backupFile(Path encryptedFile, Path cloudFile) {
+		return "checksum";
     }
 
     @Override
