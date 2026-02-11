@@ -57,7 +57,11 @@ public class CsvProtocolWriterService {
 									MonitoringProperties monitoringProperties,
 									ActiveProfileProvider activeProfileProvider) {
 		this.csvProtocolQueue = csvProtocolQueue;
-		this.csvProtocolPath = Paths.get(monitoringProperties.getCsvProtocolPath());
+		String csvProtocolPathStr = monitoringProperties.getCsvProtocolPath();
+		if (csvProtocolPathStr == null || csvProtocolPathStr.isEmpty()) {
+			throw new IllegalStateException("de.krec.monitoring.csv-protocol-path must be configured");
+		}
+		this.csvProtocolPath = Paths.get(csvProtocolPathStr);
 		this.activeProfileProvider = activeProfileProvider;
 	}
 

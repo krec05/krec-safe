@@ -7,4 +7,4 @@ de:
     encrypt:
       password: "encryptionSecretPassword"
     monitoring:
-      - loggingpath: "${java.io.tmpdir}/monitoring"
+      csv-protocol-path: "${java.io.tmpdir}/monitoring"
