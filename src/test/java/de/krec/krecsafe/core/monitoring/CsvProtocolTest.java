@@ -10,11 +10,14 @@ import org.junit.jupiter.api.io.TempDir;
 import org.mockito.Mockito;
 
 import java.io.IOException;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -82,9 +85,15 @@ class CsvProtocolTest {
 								maxCount + " lines should be written.");
 		Assertions.assertEquals(CsvProtocolWriterService.CSV_HEADER, lines.get(0));
 		for (int i = 1; i < maxCount + 1; i++) {
+			Instant backupTime =
+					LocalDateTime.of(2026, 6, 6, i, i).atZone(ZoneId.systemDefault())
+								 .toInstant();
+			String sourcePath = tempDir.toAbsolutePath().toString();
 			String expected = String.format(
-					"%s;2026-06-06T0%d:0%d:00+02:00[Europe/Berlin];%s\\sourceFile-%d.tmp;cloudFile-%d;0 B;checksum-%d;SUCCESS",
-					profile, i, i, tempDir.toAbsolutePath(), i, i, i);
+					"%s;%s;%ssourceFile-%d.tmp;cloudFile-%d;0 B;checksum-%d;SUCCESS",
+					profile, backupTime.atZone(ZoneId.systemDefault())
+									   .format(DateTimeFormatter.ISO_DATE_TIME),
+					sourcePath + FileSystems.getDefault().getSeparator(), i, i, i);
 			Assertions.assertEquals(expected, lines.get(i),
 									"the line number (" + i + ") with \"" + lines.get(i)
 									+ "\" is not equal to expected \"" + expected + "\"");
